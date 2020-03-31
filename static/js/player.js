@@ -31,7 +31,20 @@ class Musics {
                 "yanyuan.jpg"
             ]
             var music_data=[
-                "歌手1-音乐1.mp3"
+"GALA - 追梦赤子心.mp3",
+"尧十三 - 瞎子(贵州话).mp3",
+"张靓颖 - 画心.m4a",
+"新裤子 - 假如生活欺骗了你.m4a",
+"李宗盛 - 山丘 (Live).m4a",
+"李宗盛 - 我终于失去了你 (Live).m4a",
+"董贞 - 醉梦仙霖 (Live版).mp3",
+"许嵩 - 南山忆.mp3",
+"许嵩 - 如约而至.mp3",
+"许嵩 - 摄影艺术.mp3",
+"许嵩 - 最佳歌手.mp3",
+"许嵩 - 雅俗共赏.mp3",
+"许嵩 - 雨幕.mp3",
+"谢安琪 - 钟无艳.mp3"
             ]
             var song_data = [];
             for (var i = 0, len = music_data.length; i < len; i++){
