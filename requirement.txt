@@ -1,5 +1,0 @@
-Django==2.1.6
-pytz==2018.9
-click
-requests
-pycryptodome
