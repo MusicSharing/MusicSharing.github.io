@@ -38,8 +38,8 @@ class Musics {
                 song_data.push({
                     title: music_data[i].split("-")[1].split(".")[0],
                     singer: music_data[i].split("-")[0],
-                    songUrl: 'static/music_data/songs/'+music_data[i],
-                    imageUrl: 'static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
+                    songUrl: 'musicsharing.github.io/static/music_data/songs/'+music_data[i],
+                    imageUrl: 'musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
                 })
             }
             return song_data
