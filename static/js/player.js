@@ -22,29 +22,26 @@ class Player {
 
 //歌曲信息
 class Musics {
+
     //歌曲
     constructor() {
         this.songs = (function(){
+            var bgp = [
+                "c.jpg",
+                "yanyuan.jpg"
+            ]
+            var music_data=[
+                "歌手1-音乐1.mp3"
+            ]
             var song_data = [];
-            $.ajax({
-                type: "GET",
-                url: "get_songs",
-                dataType:'json',
-                data:{cmd:'coordinates'},
-                async: false,
-                success: function(rsp){
-                    var data = rsp['data'];
-                    for (var i = 0, len = data.length; i < len; i++){
-                        song_data.push({
-                            id: data[i]['rspid'],
-                            title: data[i]['name'],
-                            singer: data[i]['singer'],
-                            songUrl: '/static/music_data/songs/'+data[i]['songs'],
-                            imageUrl: '/static/music_data/images/'+data[i]['bgp']
-                        })
-                    }
-                }
-            });
+            for (var i = 0, len = music_data.length; i < len; i++){
+                song_data.push({
+                    title: music_data[i].split("-")[1].split(".")[0],
+                    singer: music_data[i].split("-")[0],
+                    songUrl: 'static/music_data/songs/'+music_data[i],
+                    imageUrl: 'static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
+                })
+            }
             return song_data
         })();
     }
@@ -150,52 +147,6 @@ class PlayerCreator {
                     }
                 }
                 $(".music-player__list").animate({scrollTop:x}, 200);
-        });
-        //Search按钮
-        this.search_button.on('click', function(){
-            var index = $.trim($('.find_song').val().toString()); // 去掉两头空格
-            if(index == ''){ // 如果搜索框输入为空
-                return false;
-            }else{
-                $.ajax({
-                    type: "POST",
-                    url: "search_songs/",
-                    dataType:'json',
-                    data:{song_name: index},
-                    success: function(rsp){
-                        var search_list = $('.search_list_content');
-                        var rap_data = rsp['data'];
-                        console.log(rap_data);
-                        let _str = '';
-                        rap_data.forEach((song, i) => {
-                            _str += `<li class="search_list_item">${song['singer']+' - '+song['title']+' '+song['duration']+' ('+song['size']+'MB)'}</li>`
-                        });
-                        search_list.html(_str);
-                        $(".search_list").slideDown();
-                    }
-                });
-            }
-        });
-
-        $('.search_list_content').on('click', '.search_list_item', (e) => {
-            $(".search_list").slideUp();
-            $(".ing").fadeIn();
-            let index = $(e.target).index();
-            $.ajax({
-                type: "GET",
-                url: "search_songs/",
-                dataType:'json',
-                data:{idx: index},
-                success: function(rsp){
-                    console.log(rsp);
-                    $(".ing").fadeOut();
-                    if (rsp['status_code'] == 200){
-                        $(".seccess").fadeIn();
-                    } else {
-                        $(".fail").fadeIn();
-                    }
-                }
-            });
         });
 
         // 点击搜结果外任意元素将隐藏搜索结果
