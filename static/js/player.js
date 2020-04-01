@@ -81,13 +81,23 @@ class Musics {
 "飘洋过海来看你 (Live) - 李宗盛.mp3"
             ]
             var song_data = [];
-            for (var i = 0, len = music_data.length; i < len; i++){
+			for (var i = 0, len = music_data.length; i < len; i++){
+                if (music_data[i].split("-").length == 2){
                 song_data.push({
                     title: music_data[i].split("-")[1].split(".")[0],
                     singer: music_data[i].split("-")[0],
                     songUrl: 'https://musicsharing.github.io/static/music_data/songs/'+music_data[i],
                     imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
                 })
+                } else {
+                    song_data.push({
+                    title: music_data[i].split(".")[0],
+                    singer: "未知",
+                    songUrl: 'https://musicsharing.github.io/static/music_data/songs/'+music_data[i],
+                    imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
+                })
+                }
+
             }
             return song_data
         })();
