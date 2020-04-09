@@ -35,6 +35,7 @@ class Musics {
 			for (var i = 0, len = music_data.length; i < len; i++){
                 if (music_data[i].split("-").length == 2){
                 song_data.push({
+		    fileName: music_data[i],
                     title: music_data[i].split("-")[1].split(".")[0],
                     singer: music_data[i].split("-")[0],
                     songUrl: 'https://musicsharing.github.io/static/music_data/songs/'+music_data[i],
@@ -42,6 +43,7 @@ class Musics {
                 })
                 } else {
                     song_data.push({
+		    fileName: music_data[i],
                     title: music_data[i].split(".")[0],
                     singer: "未知",
                     songUrl: 'https://musicsharing.github.io/static/music_data/songs/'+music_data[i],
@@ -110,7 +112,7 @@ class PlayerCreator {
     renderSongList() {
         let _str = '';
         this.musics.songs.forEach((song, i) => {
-            _str += `<li class="music__list__item">${song.title} <a href="${song.songUrl}?raw=true" style="float:right;padding-right:12px">下载</a></li>`
+            _str += `<li class="music__list__item">${song.title} <a href="https://github.com/MusicSharing/MusicSharing.github.io/blob/master/static/music_data/songs/${song.fileName}?raw=true" style="float:right;padding-right:12px">下载</a></li>`
         });
         this.song_list.html(_str);
     }
