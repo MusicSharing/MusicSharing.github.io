@@ -24,4 +24,4 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: 'set music'
-      	run: bash ./set_music.sh
+      	run: python ./get_music.py
