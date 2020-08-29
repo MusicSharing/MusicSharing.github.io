@@ -1,5 +1,5 @@
 //创建一个音乐播放器的类 单例模式
-
+var user_music_list = [];
 class Player {
     constructor() { //类的构造函数
         //如果类已经有实例了，就返回这个实例
@@ -30,22 +30,25 @@ class Musics {
                 "c.jpg",
                 "yanyuan.jpg"
             ]
+            if (user_music_list.length == 0){
+                user_music_list = music_data
+            }
             var song_data = [];
-			for (var i = 0, len = music_data.length; i < len; i++){
-                if (music_data[i].split("-").length == 2){
+            for (var i = 0, len = user_music_list.length; i < len; i++){
+                if (user_music_list[i].split("-").length == 2){
                 song_data.push({
-		    fileName: music_data[i],
-                    title: music_data[i].split("-")[1].split(".")[0],
-                    singer: music_data[i].split("-")[0],
-                    songUrl: 'https://musicsharing.github.io/music/songs/'+music_data[i],
+            fileName: user_music_list[i],
+                    title: user_music_list[i].split("-")[1].split(".")[0],
+                    singer: user_music_list[i].split("-")[0],
+                    songUrl: 'https://musicsharing.github.io/music/songs/'+user_music_list[i],
                     imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
                 })
                 } else {
                     song_data.push({
-		    fileName: music_data[i],
-                    title: music_data[i].split(".")[0],
+            fileName: user_music_list[i],
+                    title: user_music_list[i].split(".")[0],
                     singer: "未知",
-                    songUrl: 'https://musicsharing.github.io/music/songs/'+music_data[i],
+                    songUrl: 'https://musicsharing.github.io/music/songs/'+user_music_list[i],
                     imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
                 })
                 }
@@ -62,14 +65,14 @@ class Musics {
 
 //真正的构建播放器的类
 class PlayerCreator {
-    constructor() {
+    start() {
         this.audio = document.querySelector('.music-player__audio') // Audio dom元素, 因为很多api都是需要原生audio调用的，所以不用jq获取
         // this.audio.muted = true; // 控制静音
         this.audio.volume = 0.8;
 
         //工具
         this.util = new Util();
-        this.musics = new Musics(); //歌曲信息
+        
         this.song_index = 0; // 当前播放的歌曲索引
         this.loop_mode = 0; // 1 2
         // 下方歌曲列表容器
@@ -109,6 +112,8 @@ class PlayerCreator {
     }
     //生成播放列表
     renderSongList() {
+        this.musics = new Musics(); //歌曲信息
+        this.song_list = $('.music__list_content');
         let _str = '';
         this.musics.songs.forEach((song, i) => {
             _str += `<li class="music__list__item">${song.title} <a href="https://musicsharing.github.io/music/songs/${song.fileName}?raw=true" style="float:right;padding-right:12px">下载</a></li>`
@@ -209,12 +214,6 @@ class PlayerCreator {
 
         //可以播放的时候触发（歌曲的基本信息都已经获取到了）
         this.audio.oncanplay = () => {
-            //避免重复实例化
-            if (this.progress) {
-                this.progress.max = this.audio.duration; //切换歌曲后更新时长
-                this.render_time.total.html(this.util.formatTime(this.audio.duration));
-                return false;
-            };
             this.progress = new Progress('.player__song--progress', {
                 min: 0,
                 max: this.audio.duration,
@@ -421,4 +420,5 @@ class Btns {
         }
     }
 }
-new Player();
+player_obj = new Player();
+player_obj.start()
