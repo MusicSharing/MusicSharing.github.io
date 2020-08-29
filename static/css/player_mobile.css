@@ -1,0 +1,15 @@
+.music-player {
+    width: 346px;
+}
+
+.music-player__controls{
+    height: 130px;
+}
+
+.music-player__disc {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
