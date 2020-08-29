@@ -32,9 +32,6 @@ $("#upfile").on("change", function () {
      reader.onload = function(){
          let json = JSON.parse(this.result);
          user_music_list = json;
-         console.log(user_music_list)
-         a = new PlayerCreator()
-         a.renderSongList()
          $("#upfile").val("")
      }
 });

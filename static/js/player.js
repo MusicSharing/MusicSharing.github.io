@@ -25,32 +25,32 @@ class Musics {
 
     //歌曲
     constructor() {
-        this.songs = (function(){
+        this.songs = (function () {
             var bgp = [
                 "c.jpg",
                 "yanyuan.jpg"
             ]
-            if (user_music_list.length == 0){
+            if (user_music_list.length == 0) {
                 user_music_list = music_data
             }
             var song_data = [];
-            for (var i = 0, len = user_music_list.length; i < len; i++){
-                if (user_music_list[i].split("-").length == 2){
-                song_data.push({
-            fileName: user_music_list[i],
-                    title: user_music_list[i].split("-")[1].split(".")[0],
-                    singer: user_music_list[i].split("-")[0],
-                    songUrl: 'https://musicsharing.github.io/music/songs/'+user_music_list[i],
-                    imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
-                })
+            for (var i = 0, len = user_music_list.length; i < len; i++) {
+                if (user_music_list[i].split("-").length == 2) {
+                    song_data.push({
+                        fileName: user_music_list[i],
+                        title: user_music_list[i].split("-")[1].split(".")[0],
+                        singer: user_music_list[i].split("-")[0],
+                        songUrl: 'https://musicsharing.github.io/music/songs/' + user_music_list[i],
+                        imageUrl: 'https://musicsharing.github.io/static/music_data/images/' + bgp[Math.floor(Math.random() * bgp.length)]
+                    })
                 } else {
                     song_data.push({
-            fileName: user_music_list[i],
-                    title: user_music_list[i].split(".")[0],
-                    singer: "未知",
-                    songUrl: 'https://musicsharing.github.io/music/songs/'+user_music_list[i],
-                    imageUrl: 'https://musicsharing.github.io/static/music_data/images/'+bgp[Math.floor(Math.random()*bgp.length)]
-                })
+                        fileName: user_music_list[i],
+                        title: user_music_list[i].split(".")[0],
+                        singer: "未知",
+                        songUrl: 'https://musicsharing.github.io/music/songs/' + user_music_list[i],
+                        imageUrl: 'https://musicsharing.github.io/static/music_data/images/' + bgp[Math.floor(Math.random() * bgp.length)]
+                    })
                 }
 
             }
@@ -65,14 +65,15 @@ class Musics {
 
 //真正的构建播放器的类
 class PlayerCreator {
-    start() {
+    constructor() {
         this.audio = document.querySelector('.music-player__audio') // Audio dom元素, 因为很多api都是需要原生audio调用的，所以不用jq获取
         // this.audio.muted = true; // 控制静音
         this.audio.volume = 0.8;
 
         //工具
         this.util = new Util();
-        
+        this.musics = new Musics(); //歌曲信息
+
         this.song_index = 0; // 当前播放的歌曲索引
         this.loop_mode = 0; // 1 2
         // 下方歌曲列表容器
@@ -112,7 +113,6 @@ class PlayerCreator {
     }
     //生成播放列表
     renderSongList() {
-        this.musics = new Musics(); //歌曲信息
         this.song_list = $('.music__list_content');
         let _str = '';
         this.musics.songs.forEach((song, i) => {
@@ -141,34 +141,34 @@ class PlayerCreator {
     //绑定各种事件
     bindEventListener() {
         //搜索框
-        this.song_find.on('keyup', function(){
+        this.song_find.on('keyup', function () {
             var index = $.trim($('.find_song').val().toString()); // 去掉两头空格
-                var x = 0;
-                var first_top = $('.music__list__item')[0].offsetTop;
-                if(index == ''){ // 如果搜索框输入为空
-                    $('li').removeClass('found');
-                    x = 0;
-                    return false;
-                }else{
-                    var parent = $('ul');
-                    $('li').removeClass('found');
-                    var all_song = $(".music__list__item:contains('"+index+"')");
-                    var first_song = all_song[0];
-                    if (first_song){
-                        all_song.addClass('found');
-                        var song_top = first_song.offsetTop;
-                        x = song_top - first_top;
-                    }
+            var x = 0;
+            var first_top = $('.music__list__item')[0].offsetTop;
+            if (index == '') { // 如果搜索框输入为空
+                $('li').removeClass('found');
+                x = 0;
+                return false;
+            } else {
+                var parent = $('ul');
+                $('li').removeClass('found');
+                var all_song = $(".music__list__item:contains('" + index + "')");
+                var first_song = all_song[0];
+                if (first_song) {
+                    all_song.addClass('found');
+                    var song_top = first_song.offsetTop;
+                    x = song_top - first_top;
                 }
-                $(".music-player__list").animate({scrollTop:x}, 200);
+            }
+            $(".music-player__list").animate({ scrollTop: x }, 200);
         });
 
         // 点击搜结果外任意元素将隐藏搜索结果
-        $(document).click(function(){
+        $(document).click(function () {
             $(".search_list").slideUp();
             $(".download").fadeOut();
         });
-        $(".search_list").click(function(event){
+        $(".search_list").click(function (event) {
             event.stopPropagation();
         });
 
@@ -420,5 +420,6 @@ class Btns {
         }
     }
 }
-player_obj = new Player();
-player_obj.start()
+PlayerObj = new Player();
+
+
