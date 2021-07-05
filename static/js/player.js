@@ -131,6 +131,7 @@ class PlayerCreator {
         } = this.musics.getSongByNum(this.song_index);
         this.audio.src = songUrl;
         this.render_doms.title.html(title);
+        document.title = title;
         this.render_doms.singer.html(singer);
         this.render_doms.image.prop('src', imageUrl);
         this.render_doms.blur.css('background-image', 'url("' + imageUrl + '")');
